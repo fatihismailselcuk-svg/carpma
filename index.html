@@ -2,7 +2,6 @@
 <html lang="tr">
 
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -17,27 +16,32 @@
 
   <style>
 
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
+      padding: 30px;
+      min-height: 100vh;
 
       font-family:
         -apple-system,
         BlinkMacSystemFont,
+        "SF Pro Display",
+        Arial,
         sans-serif;
 
       background: #f2f2f7;
 
-      margin: 0;
-
-      padding: 30px;
-
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-
     .card {
-
-      max-width: 400px;
-
-      margin: auto;
+      width: 100%;
+      max-width: 420px;
 
       background: white;
 
@@ -45,37 +49,30 @@
 
       border-radius: 20px;
 
+      box-shadow:
+        0 8px 30px rgba(0,0,0,0.08);
     }
-
 
     h1 {
-
+      margin-top: 0;
       text-align: center;
-
     }
 
-
     input {
-
       width: 100%;
-
-      box-sizing: border-box;
 
       font-size: 24px;
 
       padding: 15px;
 
-      margin-top: 10px;
+      margin-top: 12px;
 
       border-radius: 12px;
 
       border: 1px solid #ccc;
-
     }
 
-
     button {
-
       width: 100%;
 
       margin-top: 20px;
@@ -83,80 +80,75 @@
       padding: 15px;
 
       font-size: 22px;
+      font-weight: 600;
 
       border: none;
 
       border-radius: 12px;
 
       background: #007aff;
-
       color: white;
-
     }
 
-
     #sonuc {
-
       margin-top: 25px;
 
-      font-size: 32px;
+      padding: 18px;
 
+      background: #f2f2f7;
+
+      border-radius: 12px;
+
+      font-size: 32px;
       font-weight: bold;
 
       text-align: center;
+    }
 
+    #durum {
+      margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
     }
 
   </style>
-
 </head>
-
 
 <body>
 
-
 <div class="card">
 
-
   <h1>Çarpma</h1>
-
 
   <input
     id="sayi1"
     type="number"
+    inputmode="decimal"
     placeholder="Birinci sayı">
-
 
   <input
     id="sayi2"
     type="number"
+    inputmode="decimal"
     placeholder="İkinci sayı">
 
-
   <button onclick="hesapla()">
-
     Çarp
-
   </button>
 
-
   <div id="sonuc">
-
     —
-
   </div>
 
+  <div id="durum"></div>
 
 </div>
 
 
-
 <script>
 
-
 const APPS_SCRIPT_URL =
-  "
-https://script.google.com/macros/s/AKfycbzJhlsZZMH63eIzzcnhXrd-JMlgTXsSRULN_jwn1cXES2AtXHT2yp_8wAV28YcAtrf-Ow/exec";
+  "BURAYA_APPS_SCRIPT_EXEC_URL";
 
 
 function hesapla() {
@@ -172,12 +164,25 @@ function hesapla() {
       .value;
 
 
-  const callbackName =
-    "sonucuGoster";
+  document
+    .getElementById("durum")
+    .innerText =
+    "Hesaplanıyor...";
+
+
+  const eskiScript =
+    document.getElementById("jsonpScript");
+
+  if (eskiScript) {
+    eskiScript.remove();
+  }
 
 
   const script =
     document.createElement("script");
+
+  script.id =
+    "jsonpScript";
 
 
   script.src =
@@ -186,14 +191,23 @@ function hesapla() {
     encodeURIComponent(a) +
     "&b=" +
     encodeURIComponent(b) +
-    "&callback=" +
-    callbackName;
+    "&callback=sonucuGoster";
+
+
+  script.onerror =
+    function() {
+
+      document
+        .getElementById("durum")
+        .innerText =
+        "Apps Script bağlantı hatası.";
+
+    };
 
 
   document.body.appendChild(script);
 
 }
-
 
 
 function sonucuGoster(data) {
@@ -205,21 +219,59 @@ function sonucuGoster(data) {
       .innerText =
       data.result;
 
+    document
+      .getElementById("durum")
+      .innerText =
+      "";
+
+  } else {
+
+    document
+      .getElementById("durum")
+      .innerText =
+      "Hata oluştu.";
+
   }
 
 }
 
 
+document
+  .getElementById("sayi2")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (event.key === "Enter") {
+        hesapla();
+      }
+
+    }
+  );
+
 </script>
+
+
+<script>
+
 if ("serviceWorker" in navigator) {
 
   navigator
     .serviceWorker
-    .register("./service-worker.js");
+    .register("./service-worker.js")
+    .catch(function(error) {
+
+      console.log(
+        "Service Worker error:",
+        error
+      );
+
+    });
 
 }
 
 </script>
+
 </body>
 
 </html>
