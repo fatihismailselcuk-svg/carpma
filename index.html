@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1">
+
+  <link
+    rel="manifest"
+    href="manifest.json">
+
+  <title>Çarpma</title>
+
+  <style>
+
+    body {
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+      background: #f2f2f7;
+
+      margin: 0;
+
+      padding: 30px;
+
+    }
+
+
+    .card {
+
+      max-width: 400px;
+
+      margin: auto;
+
+      background: white;
+
+      padding: 25px;
+
+      border-radius: 20px;
+
+    }
+
+
+    h1 {
+
+      text-align: center;
+
+    }
+
+
+    input {
+
+      width: 100%;
+
+      box-sizing: border-box;
+
+      font-size: 24px;
+
+      padding: 15px;
+
+      margin-top: 10px;
+
+      border-radius: 12px;
+
+      border: 1px solid #ccc;
+
+    }
+
+
+    button {
+
+      width: 100%;
+
+      margin-top: 20px;
+
+      padding: 15px;
+
+      font-size: 22px;
+
+      border: none;
+
+      border-radius: 12px;
+
+      background: #007aff;
+
+      color: white;
+
+    }
+
+
+    #sonuc {
+
+      margin-top: 25px;
+
+      font-size: 32px;
+
+      font-weight: bold;
+
+      text-align: center;
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<div class="card">
+
+
+  <h1>Çarpma</h1>
+
+
+  <input
+    id="sayi1"
+    type="number"
+    placeholder="Birinci sayı">
+
+
+  <input
+    id="sayi2"
+    type="number"
+    placeholder="İkinci sayı">
+
+
+  <button onclick="hesapla()">
+
+    Çarp
+
+  </button>
+
+
+  <div id="sonuc">
+
+    —
+
+  </div>
+
+
+</div>
+
+
+
+<script>
+
+
+const APPS_SCRIPT_URL =
+  "BURAYA_APPS_SCRIPT_EXEC_URL";
+
+
+function hesapla() {
+
+  const a =
+    document
+      .getElementById("sayi1")
+      .value;
+
+  const b =
+    document
+      .getElementById("sayi2")
+      .value;
+
+
+  const callbackName =
+    "sonucuGoster";
+
+
+  const script =
+    document.createElement("script");
+
+
+  script.src =
+    APPS_SCRIPT_URL +
+    "?a=" +
+    encodeURIComponent(a) +
+    "&b=" +
+    encodeURIComponent(b) +
+    "&callback=" +
+    callbackName;
+
+
+  document.body.appendChild(script);
+
+}
+
+
+
+function sonucuGoster(data) {
+
+  if (data.success) {
+
+    document
+      .getElementById("sonuc")
+      .innerText =
+      data.result;
+
+  }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
