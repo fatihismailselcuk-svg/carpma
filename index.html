@@ -144,11 +144,12 @@
 
 </div>
 
-
 <script>
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxRo0pdcBzjlfCwX_WtJiqZFHJI-dmH0jNjXxGfymtyS-Kq7SPMVHLuJZqpOWjY-yN-mg/exec";
+
+let cevapGeldi = false;
 
 
 function hesapla() {
@@ -168,6 +169,9 @@ function hesapla() {
     .getElementById("durum")
     .innerText =
     "Hesaplanıyor...";
+
+
+  cevapGeldi = false;
 
 
   const eskiScript =
@@ -191,7 +195,9 @@ function hesapla() {
     encodeURIComponent(a) +
     "&b=" +
     encodeURIComponent(b) +
-    "&callback=sonucuGoster";
+    "&callback=sonucuGoster" +
+    "&t=" +
+    Date.now();
 
 
   script.onerror =
@@ -207,10 +213,27 @@ function hesapla() {
 
   document.body.appendChild(script);
 
+
+  setTimeout(function() {
+
+    if (!cevapGeldi) {
+
+      document
+        .getElementById("durum")
+        .innerText =
+        "Apps Script'ten cevap alınamadı.";
+
+    }
+
+  }, 8000);
+
 }
 
 
 function sonucuGoster(data) {
+
+  cevapGeldi = true;
+
 
   if (data.success) {
 
@@ -248,27 +271,6 @@ document
 
     }
   );
-
-</script>
-
-
-<script>
-
-if ("serviceWorker" in navigator) {
-
-  navigator
-    .serviceWorker
-    .register("./service-worker.js")
-    .catch(function(error) {
-
-      console.log(
-        "Service Worker error:",
-        error
-      );
-
-    });
-
-}
 
 </script>
 
