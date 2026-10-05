@@ -15,7 +15,6 @@
   <title>Çarpma</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -44,7 +43,6 @@
       max-width: 420px;
 
       background: white;
-
       padding: 25px;
 
       border-radius: 20px;
@@ -62,13 +60,10 @@
       width: 100%;
 
       font-size: 24px;
-
       padding: 15px;
-
       margin-top: 12px;
 
       border-radius: 12px;
-
       border: 1px solid #ccc;
     }
 
@@ -76,14 +71,12 @@
       width: 100%;
 
       margin-top: 20px;
-
       padding: 15px;
 
       font-size: 22px;
       font-weight: 600;
 
       border: none;
-
       border-radius: 12px;
 
       background: #007aff;
@@ -92,7 +85,6 @@
 
     #sonuc {
       margin-top: 25px;
-
       padding: 18px;
 
       background: #f2f2f7;
@@ -107,10 +99,10 @@
 
     #durum {
       margin-top: 10px;
+
       text-align: center;
       font-size: 14px;
     }
-
   </style>
 </head>
 
@@ -148,6 +140,7 @@
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxRo0pdcBzjlfCwX_WtJiqZFHJI-dmH0jNjXxGfymtyS-Kq7SPMVHLuJZqpOWjY-yN-mg/exec";
+
 
 let cevapGeldi = false;
 
@@ -272,10 +265,32 @@ document
     }
   );
 
-</script>
+
 if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("./service-worker.js");
+
+  window.addEventListener(
+    "load",
+    function() {
+
+      navigator
+        .serviceWorker
+        .register("./service-worker.js")
+        .catch(function(error) {
+
+          console.log(
+            "Service Worker error:",
+            error
+          );
+
+        });
+
+    }
+  );
+
 }
+
+</script>
+
 </body>
 
 </html>
