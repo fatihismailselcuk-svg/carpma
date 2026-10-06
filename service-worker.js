@@ -1,5 +1,5 @@
 const CACHE_NAME =
-  "carpma-v3";
+  "carpma-v4";
 
 
 const FILES_TO_CACHE = [
