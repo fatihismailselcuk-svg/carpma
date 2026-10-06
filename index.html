@@ -1,16 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  <link
-    rel="manifest"
-    href="manifest.json">
+  <meta name="theme-color" content="#000000">
+  <link rel="manifest" href="manifest.json">
 
   <title>Çarpma</title>
 
@@ -19,153 +17,253 @@
       box-sizing: border-box;
     }
 
-    body {
+    html, body {
       margin: 0;
-      padding: 30px;
+      min-height: 100%;
+    }
+
+    body {
       min-height: 100vh;
+      min-height: 100dvh;
+      background: #000000;
+      color: #ffffff;
 
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Display",
-        Arial,
-        sans-serif;
-
-      background: #f2f2f7;
+      font-family: -apple-system, BlinkMacSystemFont,
+                   "SF Pro Display", Arial, sans-serif;
 
       display: flex;
       justify-content: center;
+      align-items: flex-start;
+
+      padding: max(65px, env(safe-area-inset-top))
+               18px
+               30px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
     }
 
-    .card {
+    /* SAYI GİRİŞ ALANLARI */
+
+    .inputs {
       width: 100%;
-      max-width: 420px;
-
-      background: white;
-      padding: 25px;
-
-      border-radius: 20px;
-
-      box-shadow:
-        0 8px 30px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
     }
 
-    h1 {
-      margin-top: 0;
-      text-align: center;
-    }
+    .inputs input {
+      width: 0;
+      flex: 1;
+      height: 88px;
 
-    input {
-      width: 100%;
+      background: #fffca0;
+      color: #000000;
 
-      font-size: 24px;
-      padding: 15px;
-      margin-top: 12px;
-
+      border: 4px solid white;
       border-radius: 12px;
-      border: 1px solid #ccc;
+
+      font-size: 44px;
+      font-weight: 800;
+      text-align: center;
+
+      outline: none;
+      padding: 4px;
+
+      box-shadow: 0 2px 8px rgba(255,255,255,0.10);
     }
 
-    button {
-      width: 100%;
+    .inputs input:focus {
+      border-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
+    }
 
-      margin-top: 20px;
-      padding: 15px;
+    .inputs input::placeholder {
+      color: #888650;
+    }
 
-      font-size: 22px;
-      font-weight: 600;
+    input::-webkit-inner-spin-button,
+    input::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    /* KIRMIZI ÜÇGEN BUTON */
+
+    .triangle {
+      width: min(70vw, 300px);
+      aspect-ratio: 1.15 / 1;
+
+      margin-top: 65px;
+
+      background: linear-gradient(
+        160deg,
+        #ff4242 0%,
+        #fa1010 50%,
+        #d90000 100%
+      );
 
       border: none;
-      border-radius: 12px;
-
-      background: #007aff;
       color: white;
+
+      clip-path: polygon(
+        50% 0%,
+        100% 100%,
+        0% 100%
+      );
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+
+      padding-bottom: 28px;
+
+      font-size: 36px;
+      font-weight: 900;
+
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+
+      filter: drop-shadow(0 0 14px rgba(255,0,0,0.4));
+
+      transition: transform 0.1s ease;
     }
 
+    .triangle:active {
+      transform: scale(0.94);
+    }
+
+    /* SONUÇ */
+
     #sonuc {
-      margin-top: 25px;
-      padding: 18px;
+      margin-top: 65px;
 
-      background: #f2f2f7;
+      font-size: clamp(60px, 19vw, 100px);
+      font-weight: 800;
 
-      border-radius: 12px;
-
-      font-size: 32px;
-      font-weight: bold;
-
+      color: #ffffff;
       text-align: center;
+
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      line-height: 1.2;
     }
 
     #durum {
-      margin-top: 10px;
+      margin-top: 15px;
+      min-height: 24px;
 
       text-align: center;
-      font-size: 14px;
+      font-size: 15px;
+      color: #aaaaaa;
     }
+
+    /* KÜÇÜK EKRANLAR */
+
+    @media (max-width: 380px) {
+      .inputs {
+        gap: 20px;
+      }
+
+      .inputs input {
+        height: 72px;
+        font-size: 36px;
+      }
+
+      .triangle {
+        margin-top: 55px;
+        font-size: 30px;
+      }
+
+      #sonuc {
+        margin-top: 50px;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-<div class="card">
+  <div class="container">
 
-  <h1>Çarpma</h1>
+    <div class="inputs">
 
-  <input
-    id="sayi1"
-    type="number"
-    inputmode="decimal"
-    placeholder="Birinci sayı">
+      <input
+        id="sayi1"
+        type="number"
+        inputmode="decimal"
+        placeholder="1"
+        aria-label="Birinci sayı">
 
-  <input
-    id="sayi2"
-    type="number"
-    inputmode="decimal"
-    placeholder="İkinci sayı">
+      <input
+        id="sayi2"
+        type="number"
+        inputmode="decimal"
+        placeholder="2"
+        aria-label="İkinci sayı">
 
-  <button onclick="hesapla()">
-    Çarp
-  </button>
+    </div>
 
-  <div id="sonuc">
-    —
+    <button
+      class="triangle"
+      onclick="hesapla()"
+      aria-label="Çarp">
+      ÇARP
+    </button>
+
+    <div id="sonuc">—</div>
+
+    <div id="durum"></div>
+
   </div>
 
-  <div id="durum"></div>
-
-</div>
 
 <script>
 
 const APPS_SCRIPT_URL =
   "https://script.google.com/macros/s/AKfycbxRo0pdcBzjlfCwX_WtJiqZFHJI-dmH0jNjXxGfymtyS-Kq7SPMVHLuJZqpOWjY-yN-mg/exec";
 
-
 let cevapGeldi = false;
+let istekNo = 0;
+let zamanAsimi = null;
 
+const sayi1 = document.getElementById("sayi1");
+const sayi2 = document.getElementById("sayi2");
+const sonuc = document.getElementById("sonuc");
+const durum = document.getElementById("durum");
 
 function hesapla() {
 
-  const a =
-    document
-      .getElementById("sayi1")
-      .value;
+  const a = sayi1.value;
+  const b = sayi2.value;
 
-  const b =
-    document
-      .getElementById("sayi2")
-      .value;
+  if (a.trim() === "" || b.trim() === "") {
+    durum.innerText = "Lütfen iki sayı girin.";
+    return;
+  }
 
-
-  document
-    .getElementById("durum")
-    .innerText =
-    "Hesaplanıyor...";
-
-
+  // Eski isteği geçersiz kıl.
+  const buIstek = ++istekNo;
   cevapGeldi = false;
 
+  clearTimeout(zamanAsimi);
+
+  sonuc.innerText = "—";
+  durum.innerText = "Hesaplanıyor...";
+
+  // Telefon klavyesini kapat.
+  document.activeElement.blur();
 
   const eskiScript =
     document.getElementById("jsonpScript");
@@ -174,123 +272,110 @@ function hesapla() {
     eskiScript.remove();
   }
 
+  const script = document.createElement("script");
+  script.id = "jsonpScript";
 
-  const script =
-    document.createElement("script");
+  // Her isteğe özel callback kullan.
+  const callbackAdi = "carpmaCallback_" + buIstek;
 
-  script.id =
-    "jsonpScript";
+  window[callbackAdi] = function(data) {
 
+    if (buIstek !== istekNo) return;
+
+    cevapGeldi = true;
+    clearTimeout(zamanAsimi);
+
+    if (data && data.success) {
+      sonuc.innerText = data.result;
+      durum.innerText = "";
+    } else {
+      durum.innerText = "Hata oluştu.";
+    }
+
+  };
 
   script.src =
     APPS_SCRIPT_URL +
-    "?a=" +
-    encodeURIComponent(a) +
-    "&b=" +
-    encodeURIComponent(b) +
-    "&callback=sonucuGoster" +
-    "&t=" +
-    Date.now();
+    "?a=" + encodeURIComponent(a) +
+    "&b=" + encodeURIComponent(b) +
+    "&callback=" + callbackAdi +
+    "&t=" + Date.now();
 
+  script.onerror = function() {
 
-  script.onerror =
-    function() {
+    if (buIstek !== istekNo || cevapGeldi) return;
 
-      document
-        .getElementById("durum")
-        .innerText =
-        "Apps Script bağlantı hatası.";
+    cevapGeldi = true;
+    clearTimeout(zamanAsimi);
 
-    };
-
+    durum.innerText =
+      "Apps Script bağlantı hatası.";
+  };
 
   document.body.appendChild(script);
 
+  zamanAsimi = setTimeout(function() {
 
-  setTimeout(function() {
+    if (buIstek === istekNo && !cevapGeldi) {
 
-    if (!cevapGeldi) {
+      cevapGeldi = true;
 
-      document
-        .getElementById("durum")
-        .innerText =
+      durum.innerText =
         "Apps Script'ten cevap alınamadı.";
-
     }
 
   }, 8000);
 
 }
 
-
-function sonucuGoster(data) {
-
+// Sayılar değişince eski sonucu temizle.
+function sonucuTemizle() {
+  istekNo++;
   cevapGeldi = true;
+  clearTimeout(zamanAsimi);
 
+  const eskiScript =
+    document.getElementById("jsonpScript");
 
-  if (data.success) {
+  if (eskiScript) eskiScript.remove();
 
-    document
-      .getElementById("sonuc")
-      .innerText =
-      data.result;
-
-    document
-      .getElementById("durum")
-      .innerText =
-      "";
-
-  } else {
-
-    document
-      .getElementById("durum")
-      .innerText =
-      "Hata oluştu.";
-
-  }
-
+  sonuc.innerText = "—";
+  durum.innerText = "";
 }
 
+sayi1.addEventListener("input", sonucuTemizle);
+sayi2.addEventListener("input", sonucuTemizle);
 
-document
-  .getElementById("sayi2")
-  .addEventListener(
-    "keydown",
-    function(event) {
+// Enter ile hesaplama
+[sayi1, sayi2].forEach(function(input) {
 
-      if (event.key === "Enter") {
-        hesapla();
-      }
+  input.addEventListener("keydown", function(event) {
 
+    if (event.key === "Enter") {
+      event.preventDefault();
+      hesapla();
     }
-  );
 
+  });
 
+});
+
+// PWA SERVICE WORKER
 if ("serviceWorker" in navigator) {
 
-  window.addEventListener(
-    "load",
-    function() {
+  window.addEventListener("load", function() {
 
-      navigator
-        .serviceWorker
-        .register("./service-worker.js")
-        .catch(function(error) {
+    navigator.serviceWorker
+      .register("./service-worker.js")
+      .catch(function(error) {
+        console.log("Service Worker error:", error);
+      });
 
-          console.log(
-            "Service Worker error:",
-            error
-          );
-
-        });
-
-    }
-  );
+  });
 
 }
 
 </script>
 
 </body>
-
 </html>
